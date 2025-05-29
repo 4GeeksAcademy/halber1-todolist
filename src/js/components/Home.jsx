@@ -1,26 +1,34 @@
-import React from "react";
+import React from "react";  // Import React
+import rigoImage from "../../img/rigo-baby.jpg";  // include images into your bundle
+// 6.- Importamos nuestros componentes 
+import Navbar from "./Navbar.jsx";
+import { Alert } from "./Alert.jsx";
+import { Spinner } from "./Spinner.jsx";
+import { BtnCallActions } from "./BtnCallActions.jsx";
+import { Card } from "./Card.jsx";
+import { Footer } from "./Footer.jsx";
+import { SubTitle } from "./SubTitle.jsx";
+import { TemplateLiteralvsJSX } from "./TemplateLiteralvsJSX.jsx";
+import { ExampleUseState } from "./ExampleUseState.jsx";
+import { SimpleCounter } from "./SimpleCounter.jsx";
+import { Login } from "./Login.jsx";
+import { TodoList } from "./TodoList.jsx";
+import { ExampleFetch } from "./ExampleFetch.jsx";
+import { TodoListFetch } from "./TodoListFetch.jsx";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
-//create your first component
+// Create your first component
 const Home = () => {
-	return (
-		<div className="text-center">
-            
+	// codigo JS
+	// console.log('estoy dentro del componente Home')
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+	return (
+		<div className="d-flex flex-column min-vh-100 text-center">
+			<Navbar/>
+			<TodoList/>
+      {/* 
+      */}
+			<Footer/>
 		</div>
 	);
 };
