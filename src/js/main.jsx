@@ -1,10 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import TodoList from './components/TodoList.jsx';
-import '../styles/index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "../styles/index.css";
+import Home from "./components/Home.jsx";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <TodoList />
-  </React.StrictMode>
-);
+const root = ReactDOM.createRoot(document.getElementById("app"));
+root.render(<Home />);

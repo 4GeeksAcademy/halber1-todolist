@@ -1,53 +1,16 @@
-.big-counter {
-  text-align: center;
-  background: black;
-  padding: 10px;
-  margin-top: 20px;
-  border-radius: 6px;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+.body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
 }
 
-/* Número del contador */
-.big-counter div {
-  display: inline-block;
-  font-size: 60px;
-  background: #161B22;
-  border-radius: 5px;
-  color: white;
-  padding: 10px 20px;
-  margin: 3px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  user-select: none;
-}
-
-/* Ocultar iconos inicialmente */
 .hidden-icon > span {
   visibility: hidden;
   cursor: pointer;
-  margin-left: 10px;
-  transition: visibility 0.2s ease-in-out;
 }
 
-/* Mostrar iconos al hacer hover sobre el li */
+/* Muestra el icono cuando el cursor pase por encima del li */
 .hidden-icon:hover > span {
   visibility: visible;
-}
-
-/* Opcional: resaltar el ítem cuando se pasa el mouse */
-.list-group-item.hidden-icon:hover {
-  background-color: #f8f9fa;
-  transition: background-color 0.3s ease;
-}
-
-/* Cambiar cursor a pointer en los íconos para que se note que son clickeables */
-.hidden-icon > span:hover {
-  color: #0d6efd; /* azul bootstrap */
-}
-
-/* Ajustar el texto tachado si está completado */
-.completed-task {
-  text-decoration: line-through;
-  color: gray;
 }
