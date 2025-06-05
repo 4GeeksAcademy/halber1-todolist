@@ -1,55 +1,94 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPenToSquare, faCircleXmark, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
-const TodoList = () => {
-  const [task, setTask] = useState("");
+export const TodoList = () => {
   const [todos, setTodos] = useState([]);
+  const [newTask, setNewTask] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentTask, setCurrentTask] = useState({});
 
   const handleAddTask = (e) => {
     e.preventDefault();
-    if (task.trim() === "") return;
-    setTodos([...todos, { label: task, is_done: false }]);
-    setTask("");
+    if (newTask.trim()) {
+      const newTodo = {
+        id: Date.now(),
+        label: newTask,
+        is_done: false,
+      };
+      setTodos([...todos, newTodo]);
+      setNewTask("");
+    }
   };
 
-  const handleDelete = (index) => {
-    const newTodos = todos.filter((_, i) => i !== index);
-    setTodos(newTodos);
+  const handleEditTask = (task) => {
+    setIsEditing(true);
+    setCurrentTask(task);
+  };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    const updatedTodos = todos.map((todo) =>
+      todo.id === currentTask.id ? currentTask : todo
+    );
+    setTodos(updatedTodos);
+    setIsEditing(false);
+    setCurrentTask({});
+  };
+
+  const handleDeleteTask = (id) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+  };
+
+  const handleToggleCompletion = (id) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, is_done: !todo.is_done } : todo
+    );
+    setTodos(updatedTodos);
   };
 
   return (
-    <div className="container my-4">
-      <h2>Todo List</h2>
-      <form onSubmit={handleAddTask}>
+    <div>
+      <form onSubmit={isEditing ? handleSaveEdit : handleAddTask}>
         <input
           type="text"
-          className="form-control my-2"
-          placeholder="Enter a task"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+          value={isEditing ? currentTask.label : newTask}
+          onChange={(e) =>
+            isEditing
+              ? setCurrentTask({ ...currentTask, label: e.target.value })
+              : setNewTask(e.target.value)
+          }
+          placeholder="Enter task"
         />
-        <button type="submit" className="btn btn-primary">
-          Add Task
-        </button>
+        <button type="submit">{isEditing ? "Save" : "Add"}</button>
       </form>
-      <ul className="list-group my-3">
-        {todos.length === 0 ? (
-          <li className="list-group-item">No tasks yet.</li>
-        ) : (
-          todos.map((item, index) => (
-            <li
-              key={index}
-              className="list-group-item d-flex justify-content-between align-items-center hidden-icon"
+
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <span
+              onClick={() => handleToggleCompletion(todo.id)}
+              style={{
+                textDecoration: todo.is_done ? "line-through" : "none",
+              }}
             >
-              {item.label}
-              <span onClick={() => handleDelete(index)} className="text-danger">
-                🗑️
-              </span>
-            </li>
-          ))
-        )}
+              {todo.is_done ? (
+                <FontAwesomeIcon icon={faThumbsUp} />
+              ) : (
+                <FontAwesomeIcon icon={faCircleXmark} />
+              )}
+              {todo.label}
+            </span>
+            <button onClick={() => handleEditTask(todo)}>
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </button>
+            <button onClick={() => handleDeleteTask(todo.id)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );
 };
-
-export default TodoList;

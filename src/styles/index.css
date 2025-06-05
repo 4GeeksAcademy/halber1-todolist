@@ -1,16 +1,76 @@
-.body {
+body {
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
+  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
 }
 
-.hidden-icon > span {
-  visibility: hidden;
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #28a745;
+  color: white;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-/* Muestra el icono cuando el cursor pase por encima del li */
-.hidden-icon:hover > span {
-  visibility: visible;
+button:hover {
+  background-color: #218838;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fafafa;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+li span {
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+li button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+li button:hover {
+  color: #dc3545;
 }
