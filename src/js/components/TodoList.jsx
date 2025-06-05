@@ -1,80 +1,142 @@
-import { useState } from "react"
-
+import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faCircleXmark, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export const TodoList = () => {
-  const [ task, setTask ]= useState('');
-  const [ todos, setTodos ] = useState([    
-    {id: 1, todo: 'tarea 1'},
-    {id: 2, todo: 'tarea 2'},
-    {id: 3, todo: 'tarea 3'}
-  ])
+  const [todos, setTodos] = useState([
+    { id: 1, label: "Comprar leche", is_done: false },
+    { id: 2, label: "Estudiar React", is_done: true },
+  ]);
+  const [newTask, setNewTask] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [editTask, setEditTask] = useState("");
+  const [editCompleted, setEditCompleted] = useState(false);
+  const [editTodoId, setEditTodoId] = useState(null);
 
-  const handleTask = (event) => {
-    setTask(event.target.value)
-  }
+  // Añadir nueva tarea
+  const handleAddTask = (e) => {
+    e.preventDefault();
+    if (!newTask.trim()) return;
+    const newTodo = {
+      id: Date.now(),
+      label: newTask.trim(),
+      is_done: false
+    };
+    setTodos([...todos, newTodo]);
+    setNewTask("");
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (task.trim() != '') {
-      setTodos([...todos, {id: todos.length + 1, todo: task}])
-    }
-    setTask('')
-  }
+  // Editar tarea existente
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    setTodos(todos.map(todo => 
+      todo.id === editTodoId 
+        ? { ...todo, label: editTask, is_done: editCompleted } 
+        : todo
+    ));
+    setIsEdit(false);
+    setEditTask("");
+    setEditCompleted(false);
+    setEditTodoId(null);
+  };
 
-  const handleDelete = (tarea) => {
-    console.log(tarea)
-    console.log(todos.filter((item) => item.id != tarea.id))
-    setTodos(todos.filter((item) => item.id != tarea.id))
-  }
+  // Cargar tarea para editar
+  const handleEdit = (todo) => {
+    setIsEdit(true);
+    setEditTask(todo.label);
+    setEditCompleted(todo.is_done);
+    setEditTodoId(todo.id);
+  };
+
+  // Eliminar tarea
+  const handleDelete = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  // Cancelar edición
+  const handleCancel = () => {
+    setIsEdit(false);
+    setEditTask("");
+    setEditCompleted(false);
+    setEditTodoId(null);
+  };
 
   return (
+    <div className="container my-5">
+      <h1 className="text-success">Todo List</h1>
 
-    <div className="container my-3 text-start">
-      <div className="row">
-        <div className="col-10 col-sm-8 col-md-6 m-auto">
-          <h1 className="text-success text-center">Todo List</h1>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-10 col-sm-8 col-md-6 m-auto">
-          <h2 className="text-primary">Add Task</h2>
+      {isEdit ? (
+        <form onSubmit={handleEditSubmit}>
+          <div className="mb-3 text-start">
+            <label className="form-label">Edit Task</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={editTask} 
+              onChange={(e) => setEditTask(e.target.value)} 
+              required
+            />
+          </div>
+          <div className="mb-3 form-check text-start">
+            <input 
+              type="checkbox" 
+              className="form-check-input" 
+              checked={editCompleted} 
+              onChange={(e) => setEditCompleted(e.target.checked)} 
+            />
+            <label className="form-check-label">Completed</label>
+          </div>
+          <button type="submit" className="btn btn-primary me-2">Submit</button>
+          <button type="button" onClick={handleCancel} className="btn btn-secondary">Cancel</button>
+        </form>
+      ) : (
+        <form onSubmit={handleAddTask}>
+          <div className="mb-3 text-start">
+            <label className="form-label">Add Task</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              value={newTask} 
+              onChange={(e) => setNewTask(e.target.value)} 
+              placeholder="Write a new task..." 
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-success">Add Task</button>
+        </form>
+      )}
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="taskInput" className="form-label">New Task</label>
-              <input type="text" className="form-control" id="taskInput" placeholder="add new task" 
-                value={task} onChange={handleTask}/>
+      <h2 className="text-primary mt-5">List</h2>
+
+      <ul className="list-group text-start">
+        {todos.length === 0 && <li className="list-group-item">No tasks, please add a new task</li>}
+        {todos.map(todo => (
+          <li 
+            key={todo.id} 
+            className="list-group-item hidden-icon d-flex justify-content-between align-items-center"
+          >
+            <div className={todo.is_done ? "completed-task" : ""}>
+              {todo.is_done 
+                ? <FontAwesomeIcon icon={faThumbsUp} className="text-success me-2" />
+                : <FontAwesomeIcon icon={faCircleXmark} className="text-danger me-2" />
+              }
+              {todo.label}
             </div>
-          </form>
+            <div>
+              <span onClick={() => handleEdit(todo)}>
+                <FontAwesomeIcon icon={faPenToSquare} className="me-3 text-primary" style={{cursor: 'pointer'}} />
+              </span>
+              <span onClick={() => handleDelete(todo.id)}>
+                <FontAwesomeIcon icon={faTrash} className="text-danger" style={{cursor: 'pointer'}} />
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
 
-        </div>
+      <div className="big-counter mt-4">
+        <div>{todos.length}</div>
       </div>
-
-      <hr />
-
-      <div className="row">
-        <div className="col-10 col-sm-8 col-md-6 m-auto">
-          <h2 className="text-primary">List</h2>
-
-          <ul className="list-group">
-
-            {todos.map((item) => 
-              <li key={item.id} className="list-group-item d-flex justify-content-between hidden-icon">
-                {item.todo}
-                <span onClick={() => handleDelete(item)}>
-                  <i class="fa-solid fa-trash text-danger"></i>
-                </span>
-              </li>
-            )}
-
-            <li className="list-group-item text-end">
-              {todos.length ? todos.length + ' tareas' : 'No tienes tareas'}
-            </li>
-          </ul>
-
-        </div>
-      </div>
-
     </div>
-  )
-}
+  );
+};
