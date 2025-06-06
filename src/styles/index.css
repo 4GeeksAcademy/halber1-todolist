@@ -1,76 +1,105 @@
+/* Estilo general */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
+  max-width: 500px;
+  margin: 50px auto;
+  background: #ffffff;
+  padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 h1 {
+  color: #333333;
   text-align: center;
-  color: #333;
+  margin-bottom: 20px;
 }
 
 form {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-input {
-  width: 80%;
-  padding: 8px;
-  border: 1px solid #ccc;
+form input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #cccccc;
   border-radius: 4px;
+  font-size: 16px;
 }
 
-button {
-  padding: 8px 12px;
-  border: none;
+form button {
+  padding: 10px 20px;
   background-color: #28a745;
+  border: none;
   color: white;
+  font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
+form button:hover {
   background-color: #218838;
 }
 
 ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 li {
+  background: #ffffff;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fafafa;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
+  position: relative;
 }
 
 li span {
   flex-grow: 1;
   cursor: pointer;
+  color: #333333;
 }
 
-li button {
-  background-color: transparent;
+li .icons {
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+li:hover .icons {
+  opacity: 1;
+}
+
+li .icons button {
+  background: none;
   border: none;
   cursor: pointer;
+  color: #dc3545;
+  font-size: 16px;
 }
 
-li button:hover {
-  color: #dc3545;
+li .icons button:hover {
+  color: #a71d2a;
+}
+
+.no-tasks {
+  text-align: center;
+  color: #888888;
+  font-style: italic;
+  margin-top: 20px;
 }

@@ -89,6 +89,7 @@ export const TodoList = () => {
           </li>
         ))}
       </ul>
+      {todos.length === 0 && <p className="no-tasks">No tasks, add a task</p>}
     </div>
   );
 };
